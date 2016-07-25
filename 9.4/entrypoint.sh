@@ -117,7 +117,7 @@ cd ${PG_HOME}
 sleep ${PAUSE:-0}
 
 # initialize PostgreSQL data directory
-if [[ ! -d /var/lib/postgresql/9.4/main ]]; then
+if [ ! -d ${PG_DATADIR} ]; then
 
   create_data_dir
 
@@ -244,6 +244,7 @@ if [[ ! -f ${PG_HOME}/.init.ed ]]; then
       done
     fi
   fi
+  touch ${PG_HOME}/.init.ed
 fi
 
 echo "启动PostgreSQL服务..."
