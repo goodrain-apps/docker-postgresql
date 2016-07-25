@@ -1,4 +1,7 @@
 #!/bin/bash
+
+[ $DEBUG ] && set -x
+
 set -e
 
 # set this env variable to true to enable a line in the
