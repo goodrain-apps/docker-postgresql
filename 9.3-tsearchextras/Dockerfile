@@ -14,7 +14,7 @@ ENV PG_CONFDIR="/etc/postgresql/${PG_VERSION}/main" \
     PG_BINDIR="/usr/lib/postgresql/${PG_VERSION}/bin" \
     PG_DATADIR="${PG_HOME}/${PG_VERSION}/main"
 
-ADD entrypoint.sh /sbin/entrypoint.sh
+ADD 9.3/entrypoint.sh /sbin/entrypoint.sh
 RUN chmod 755 /sbin/entrypoint.sh && \
     wget -q -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - && \
     echo 'deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main' > /etc/apt/sources.list.d/pgdg.list && \
@@ -27,7 +27,7 @@ RUN chmod 755 /sbin/entrypoint.sh && \
     rm -rf /var/lib/apt/lists/*
 
 
-ADD zulip_english.stop /usr/share/postgresql/9.3/tsearch_data/zulip_english.stop
+ADD 9.3/zulip_english.stop /usr/share/postgresql/9.3/tsearch_data/zulip_english.stop
 
 EXPOSE 5432/tcp
 VOLUME ["${PG_HOME}"]
