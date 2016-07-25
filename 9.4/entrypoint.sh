@@ -117,7 +117,7 @@ cd ${PG_HOME}
 sleep ${PAUSE:-0}
 
 # initialize PostgreSQL data directory
-if [[ ! -d ${PG_DATADIR} ]]; then
+if [[ ! -d /var/lib/postgresql/9.4/main ]]; then
 
   create_data_dir
 
