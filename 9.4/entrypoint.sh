@@ -114,6 +114,8 @@ fi
 
 cd ${PG_HOME}
 
+sleep ${PAUSE:-0}
+
 # initialize PostgreSQL data directory
 if [[ ! -d ${PG_DATADIR} ]]; then
 
