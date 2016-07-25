@@ -1,4 +1,4 @@
-FROM goodrain.me/ubuntu:14.04
+FROM ubuntu:14.04
 
 RUN echo "Asia/Shanghai" > /etc/timezone;dpkg-reconfigure -f noninteractive tzdata
 RUN groupadd -r -g 200 rain && useradd -r -u 200 -g rain rain
@@ -29,5 +29,5 @@ COPY 9.4/entrypoint.sh /sbin/entrypoint.sh
 RUN chmod 755 /sbin/entrypoint.sh
 
 EXPOSE 5432/tcp
-VOLUME ["${PG_HOME}"]
+VOLUME /var/lib/postgresql
 CMD ["/sbin/entrypoint.sh"]
