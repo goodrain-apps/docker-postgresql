@@ -28,6 +28,6 @@ RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-k
 COPY 9.4/entrypoint.sh /sbin/entrypoint.sh
 RUN chmod 755 /sbin/entrypoint.sh
 
-EXPOSE 5432/tcp
+EXPOSE 5432
 VOLUME /var/lib/postgresql
 CMD ["/sbin/entrypoint.sh"]
