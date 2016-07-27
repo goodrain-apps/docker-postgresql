@@ -47,6 +47,8 @@ create_run_dir() {
 create_log_dir
 create_run_dir
 
+sleep ${PAUSE:-0}
+
 # get the config file
 if [ "$MEMORY_SIZE" == "" ];then
     echo "Must set MEMORY_SIZE environment variable! "
