@@ -27,6 +27,7 @@ PSQL_SSLMODE=${PSQL_SSLMODE:-disable}
 
 create_data_dir() {
   mkdir -p ${PG_HOME}
+  mkdir -p ${PG_CONFDIR}
   chmod -R 0700 ${PG_HOME}
   chown -R ${PG_USER}:${PG_USER} ${PG_HOME}
 }
