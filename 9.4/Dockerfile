@@ -25,7 +25,7 @@ RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-k
  && rm -rf ${PG_HOME}/${PG_VERSION} \
  && rm -rf /var/lib/apt/lists/*
 
-COPY 9.4/entrypoint.sh /sbin/entrypoint.sh
+COPY entrypoint.sh /sbin/entrypoint.sh
 RUN chmod 755 /sbin/entrypoint.sh
 
 EXPOSE 5432
