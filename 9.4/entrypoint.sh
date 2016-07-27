@@ -209,6 +209,9 @@ if [[ ! -f ${PG_HOME}/.init.ed ]]; then
         echo "CREATE ROLE ${DB_USER} with SUPERUSER LOGIN PASSWORD '${DB_PASS}';" |
           sudo -Hu ${PG_USER} ${PG_BINDIR}/postgres --single \
             -D ${PG_DATADIR} -c config_file=${PG_CONFDIR}/postgresql.conf >/dev/null
+        echo "CREATE ROLE ${POSTGRESQL_USER} with SUPERUSER LOGIN PASSWORD '${DB_PASS}';" |
+          sudo -Hu ${PG_USER} ${PG_BINDIR}/postgres --single \
+            -D ${PG_DATADIR} -c config_file=${PG_CONFDIR}/postgresql.conf >/dev/null
       fi
     fi
 
@@ -231,6 +234,10 @@ if [[ ! -f ${PG_HOME}/.init.ed ]]; then
           echo "GRANT ALL PRIVILEGES ON DATABASE ${db} to ${DB_USER};" |
             sudo -Hu ${PG_USER} ${PG_BINDIR}/postgres --single \
               -D ${PG_DATADIR} -c config_file=${PG_CONFDIR}/postgresql.conf >/dev/null
+          echo "GRANT ALL PRIVILEGES ON DATABASE ${db} to ${POSTGRESQL_USER};" |
+            sudo -Hu ${PG_USER} ${PG_BINDIR}/postgres --single \
+              -D ${PG_DATADIR} -c config_file=${PG_CONFDIR}/postgresql.conf >/dev/null
+
         fi
 
         if [[ -n ${DB_PASS} ]]; then
