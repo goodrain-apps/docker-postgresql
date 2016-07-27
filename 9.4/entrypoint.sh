@@ -27,7 +27,6 @@ PSQL_SSLMODE=${PSQL_SSLMODE:-disable}
 
 create_data_dir() {
   mkdir -p ${PG_HOME}
-  mkdir -p ${PG_CONFDIR}
   chmod -R 0700 ${PG_HOME}
   chown -R ${PG_USER}:${PG_USER} ${PG_HOME}
 }
@@ -51,6 +50,7 @@ create_run_dir
 sleep ${PAUSE:-0}
 
 # get the config file
+mkdir -p ${PG_CONFDIR}
 if [ "$MEMORY_SIZE" == "" ];then
     echo "Must set MEMORY_SIZE environment variable! "
 exit 1
