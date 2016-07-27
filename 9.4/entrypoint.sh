@@ -2,8 +2,6 @@
 
 [ $DEBUG ] && set -x
 
-set -e
-
 # set this env variable to true to enable a line in the
 # pg_hba.conf file to trust samenet.  this can be used to connect
 # from other containers on the same host without authentication
