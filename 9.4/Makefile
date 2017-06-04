@@ -1,7 +1,8 @@
-all: build
+base:
+	@docker build -t goodrainapps/postgresql:build -f Dockerfile.base .
 
-build:
-	@docker build --tag=quay.io/sameersbn/postgresql .
+build: 
+	@docker run -it -v ${PWD}/tmp:/tmp -v ${PWD}/builded:/usr/local/pgsql/ goodrainapps/postgresql:build
 
-release: build
-	@docker build --tag=quay.io/sameersbn/postgresql:$(shell cat VERSION) .
+release:
+	@docker build  -t goodrainapps/postgresql:$(shell cat VERSION) .
