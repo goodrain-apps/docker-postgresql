@@ -1,0 +1,21 @@
+FROM goodrainapps/alpine:3.6
+MAINTAINER zhouyq@goodrain.com
+
+ENV PACKAGE_DEPS \
+		alpine-sdk \
+		bison flex \
+		perl \
+		readline-dev \
+		zlib-dev
+
+RUN apk add --no-cache --virtual .build-deps $PACKAGE_DEPS
+
+
+
+WORKDIR /usr/local/pgsql
+VOLUME /usr/local/pgsql/
+COPY build.sh /
+RUN chmod +x /build.sh
+
+
+ENTRYPOINT ["/build.sh"]

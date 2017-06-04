@@ -1,12 +1,13 @@
-FROM ubuntu:14.04
+FROM goodrainapps/alpine:3.6
+MAINTAINER zhouyq@goodrain.com
 
-RUN echo "Asia/Shanghai" > /etc/timezone;dpkg-reconfigure -f noninteractive tzdata
-RUN groupadd -r -g 200 postgres && useradd -r -u 200 -g postgres postgres
+COPY builded /usr/local/pgsql
 
-RUN apt-get update && apt-get install -y locales wget && rm -rf /var/lib/apt/lists/* \
-    && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
-ENV LANG en_US.utf8
+RUN mkdir /usr/local/pgsql/data && \
+    chown postgres /usr/local/pgsql/data && \
+    sed -ir 's#/var/lib/postgresql#/usr/local/pgsql/#' /etc/passwd
 
+<<<<<<< HEAD
 
 ENV PG_VERSION=9.4 \
     PG_USER=postgres \
@@ -27,7 +28,13 @@ RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-k
 
 COPY entrypoint.sh /sbin/entrypoint.sh
 RUN chmod 755 /sbin/entrypoint.sh
+=======
+WORKDIR /usr/local/pgsql
+VOLUME /usr/local/pgsql/data
+COPY docker-entrypoint.sh /
+RUN chmod +x /docker-entrypoint.sh
+>>>>>>> 9.4
 
 EXPOSE 5432
-VOLUME /var/lib/postgresql
-CMD ["/sbin/entrypoint.sh"]
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
