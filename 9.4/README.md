@@ -151,7 +151,7 @@ docker run --name postgresql -d \
 
 
 
-# environment variables 
+# Environment variables 
 
 | Name                      | Default    | Comments                                 |
 | ------------------------- | ---------- | ---------------------------------------- |
@@ -163,3 +163,30 @@ docker run --name postgresql -d \
 | PSQL_SSLMODE              | disable    | ssl connect                              |
 | DEBUG                     | null       | docker-entrypoint.sh debug switch        |
 | PAUSE                     | null       | docker-entrypoint.sh pause for debug     |
+
+
+
+# Custom postgresql.conf
+
+This image supports modifying the postgresql.conf configuration item when the container is started.
+
+The following settings are set up by default:
+
+```bash
+CFG_SSl=${CFG_SSl:-off}
+CFG_TIMEZONE=${CFG_TIMEZONE:-Asia/Shanghai}
+CFG_LOG_TIMEZONE=${CFG_LOG_TIMEZONE:-Asia/Shanghai}
+```
+
+You can specify the configuration when starting the container, such as setting the `max_connections`,environment variable name must begin with `CFG_`
+
+```bash
+docker run -d \
+-e DB_PASS=abc123 \
+-e DB_USER=goodrain \
+-e DB_NAME=grtest \
+-e DEBUG=1 \
+-e CFG_MAX_CONNECTIONS=200  \
+goodrainapps/postgresql:9.4.12
+```
+
