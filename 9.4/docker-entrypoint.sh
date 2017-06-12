@@ -10,6 +10,7 @@ DB_NAME=${DB_NAME:-${POSTGRESQL_USER:-admin}}
 DB_USER=${DB_USER:-${POSTGRESQL_USER:-admin}}
 DB_PASS=${DB_PASS:-${POSTGRESQL_PASS:-pass4you}}
 DB_UNACCENT=${DB_UNACCENT:false}
+POSTGRES_INITDB_ARGS=${POSTGRES_INITDB_ARGS:---data-checksums}
 
 export CFG_SSl=${CFG_SSl:-off}
 export CFG_TIMEZONE=${CFG_TIMEZONE:-Asia/Shanghai}
@@ -40,16 +41,12 @@ function set_config() {
 }
 
 
-sleep ${PAUSE:0}
+sleep ${PAUSE:-0}
 
 # init db
-if [ ! -e ${PG_DATA}/.inited ];then
+if [ ! -s ${PG_DATA}/PG_VERSION ];then
   chown postgres ${PG_DATA}
-  su-exec postgres ${PG_BINDIR}/initdb -D ${PG_DATA} && touch ${PG_DATA}/.inited
-
-  if [[ ${PSQL_SSLMODE} == disable ]]; then
-    set_config "ssl" "off"
-  fi
+  su-exec postgres ${PG_BINDIR}/initdb -D ${PG_DATA} ${POSTGRES_INITDB_ARGS}
 
   # get CFG_* environment variable modify or add to config file
   set_config $PG_CONFIG
@@ -103,7 +100,6 @@ if [ ! -e ${PG_DATA}/.inited ];then
       fi
     done
   fi
-  touch ${PG_DATA}/inited
 fi
 
 # exec postgresql

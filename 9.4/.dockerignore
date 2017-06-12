@@ -1,8 +1,8 @@
 .git
+.DS_Store
 circle.yml
 LICENSE
 VERSION
 README.md
 Changelog.md
 Makefile
-tmp
