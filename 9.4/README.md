@@ -1,8 +1,8 @@
-# PostgreSQL 9.4 for [ACP](https://www.goodrain.com/ACP.html)
+# PostgreSQL  for [ACP](https://www.goodrain.com/ACP.html)
 
 
 
-> PostgreSQL is a powerful, open source object-relational database system. It has more than 15 years of active development and a proven architecture that has earned it a strong reputation for reliability, data integrity, and correctness. It runs on all major operating systems, including Linux, UNIX (AIX, BSD, HP-UX, SGI IRIX, macOS, Solaris, Tru64), and Windows. It is fully ACID compliant, has full support for foreign keys, joins, views, triggers, and stored procedures (in multiple languages). 
+> PostgreSQL is a powerful, open source object-relational database system. It has more than 15 years of active development and a proven architecture that has earned it a strong reputation for reliability, data integrity, and correctness. It runs on all major operating systems, including Linux, UNIX (AIX, BSD, HP-UX, SGI IRIX, macOS, Solaris, Tru64), and Windows. It is fully ACID compliant, has full support for foreign keys, joins, views, triggers, and stored procedures (in multiple languages).
 
 ![postgresql](http://oe5ahutux.bkt.clouddn.com/postgresql-logo.png)
 
@@ -10,7 +10,13 @@
 
 # Supported tags and Dockerfile links
 
-`9.4` , `9.4.12` [Dockerfile](https://github.com/goodrain-apps/docker-postgresql/blob/master/9.4/Dockerfile)
+`9.6` , `9.6.3` ,  `latest` [Dockerfile](https://github.com/goodrain-apps/docker-postgresql/blob/9.6/9.6/Dockerfile)
+
+`9.5` , `9.5.7` [Dockerfile](https://github.com/goodrain-apps/docker-postgresql/blob/9.5/9.5/Dockerfile)
+
+`9.4` , `9.4.12` [Dockerfile](https://github.com/goodrain-apps/docker-postgresql/blob/9.4/9.4/Dockerfile)
+
+`9.3` , `9.3.17`  [Dockerfile](https://github.com/goodrain-apps/docker-postgresql/blob/9.3/9.3/Dockerfile)
 
 # About this image
 
