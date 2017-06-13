@@ -1,4 +1,4 @@
-# PostgreSQL 9.5 for [ACP](https://www.goodrain.com/ACP.html)
+# PostgreSQL  for [ACP](https://www.goodrain.com/ACP.html)
 
 
 
@@ -10,7 +10,13 @@
 
 # Supported tags and Dockerfile links
 
+`9.6` , `9.6.3` ,  `latest` [Dockerfile](https://github.com/goodrain-apps/docker-postgresql/blob/9.6/9.6/Dockerfile)
+
 `9.5` , `9.5.7` [Dockerfile](https://github.com/goodrain-apps/docker-postgresql/blob/9.5/9.5/Dockerfile)
+
+`9.4` , `9.4.12` [Dockerfile](https://github.com/goodrain-apps/docker-postgresql/blob/9.4/9.4/Dockerfile)
+
+`9.3` , `9.3.17`  [Dockerfile](https://github.com/goodrain-apps/docker-postgresql/blob/9.3/9.3/Dockerfile)
 
 # About this image
 
