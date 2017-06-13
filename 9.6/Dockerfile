@@ -69,7 +69,11 @@ RUN set -xe \
 	  )" \
     && apk add --no-cache --virtual .postgresql-rundeps $runDeps  \
     && cd / \
-    && rm -rf /usr/src/postgresql \
+		&& rm -rf \
+  		/usr/src/postgresql \
+  		/usr/local/share/doc \
+  		/usr/local/share/man \
+  	&& find /usr/local -name '*.a' -delete \
     \
     && apk del --no-cache .build-deps
 
