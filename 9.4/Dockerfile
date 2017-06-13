@@ -39,8 +39,8 @@ RUN set -xe \
     && mv src/include/pg_config_manual.h.new src/include/pg_config_manual.h \
     && gnuArch="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)" \
     # explicitly update autoconf config.guess and config.sub so they support more arches/libcs
-    && wget -O config/config.guess "http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD" \
-    && wget -O config/config.sub "http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD" \
+		&& wget -O config/config.guess 'https://git.savannah.gnu.org/cgit/config.git/plain/config.guess?id=7d3d27baf8107b630586c962c057e22149653deb' \
+		&& wget -O config/config.sub 'https://git.savannah.gnu.org/cgit/config.git/plain/config.sub?id=7d3d27baf8107b630586c962c057e22149653deb' \
     \
     && ./configure \
       --build="$gnuArch" \
@@ -53,6 +53,9 @@ RUN set -xe \
       --with-openssl \
       --with-libxml \
       --with-libxslt \
+			--with-includes=/usr/local/include \
+			--with-libraries=/usr/local/lib \
+			--prefix=/usr/local \
   	&& make -j "$(nproc)" world \
   	&& make install-world  \
   	&& make -C contrib install \
@@ -68,17 +71,12 @@ RUN set -xe \
     && cd / \
     && rm -rf /usr/src/postgresql \
     \
-    && mkdir /usr/local/pgsql/data \
-    && chown postgres /usr/local/pgsql/data \
-    && sed -ir 's#/var/lib/postgresql#/usr/local/pgsql/#' /etc/passwd \
-    \
     && apk del --no-cache .build-deps
 
 RUN mkdir -p /var/run/postgresql && chown -R postgres:postgres /var/run/postgresql && chmod 2777 /var/run/postgresql
-ENV PATH /usr/local/pgsql/bin:$PATH
+ENV PGDATA /var/lib/postgresql/data
 ENV LANG en_US.utf8
-WORKDIR /usr/local/pgsql
-VOLUME /usr/local/pgsql/data
+VOLUME /var/lib/postgresql/data
 COPY docker-entrypoint.sh /
 RUN chmod +x /docker-entrypoint.sh
 

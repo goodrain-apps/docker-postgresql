@@ -2,9 +2,7 @@
 
 [ $DEBUG ] && set -x
 
-PG_DATA="/usr/local/pgsql/data"
-PG_BINDIR="/usr/local/pgsql/bin"
-PG_CONFIG="${PG_DATA}/postgresql.conf"
+PG_CONFIG="${PGDATA}/postgresql.conf"
 
 DB_NAME=${DB_NAME:-${POSTGRESQL_USER:-admin}}
 DB_USER=${DB_USER:-${POSTGRESQL_USER:-admin}}
@@ -44,23 +42,23 @@ function set_config() {
 sleep ${PAUSE:-0}
 
 # init db
-if [ ! -s ${PG_DATA}/PG_VERSION ];then
-  chown postgres ${PG_DATA}
-  su-exec postgres ${PG_BINDIR}/initdb -D ${PG_DATA} ${POSTGRES_INITDB_ARGS}
+if [ ! -s ${PGDATA}/PG_VERSION ];then
+  chown postgres ${PGDATA}
+  su-exec postgres initdb -D ${PGDATA} ${POSTGRES_INITDB_ARGS}
 
   # get CFG_* environment variable modify or add to config file
   set_config $PG_CONFIG
 
   # allow remote connections to postgresql database
-  echo "host    all             all             0.0.0.0/0               md5" >> ${PG_DATA}/pg_hba.conf
+  echo "host    all             all             0.0.0.0/0               md5" >> ${PGDATA}/pg_hba.conf
 
 
   # create db user
   if [[ -n ${DB_USER} ]]; then
     echo "Create DB User \"${DB_USER}\"..."
     echo "CREATE ROLE ${DB_USER} WITH SUPERUSER LOGIN PASSWORD '${DB_PASS}';" |
-      su-exec postgres ${PG_BINDIR}/postgres --single \
-        -D ${PG_DATA} -c config_file=${PG_CONFIG} >/dev/null
+      su-exec postgres postgres --single \
+        -D ${PGDATA} -c config_file=${PG_CONFIG} >/dev/null
   fi
 
   # create database and Authorization user
@@ -68,33 +66,33 @@ if [ ! -s ${PG_DATA}/PG_VERSION ];then
     for db in $(awk -F',' '{for (i = 1 ; i <= NF ; i++) print $i}' <<< "${DB_NAME}"); do
       echo "Create DB \"${db}\"..."
       echo "CREATE DATABASE ${db};" | \
-        su-exec postgres ${PG_BINDIR}/postgres --single \
-          -D ${PG_DATA} -c config_file=${PG_CONFIG} >/dev/null
+        su-exec postgres postgres --single \
+          -D ${PGDATA} -c config_file=${PG_CONFIG} >/dev/null
 
       if [[ ${DB_UNACCENT} == true ]]; then
         echo "Installing unaccent extension..."
         echo "CREATE EXTENSION IF NOT EXISTS unaccent;" | \
-          su-exec postgres ${PG_BINDIR}/postgres --single ${db} \
-            -D ${PG_DATA} -c config_file=${PG_CONFIG} >/dev/null
+          su-exec postgres postgres --single ${db} \
+            -D ${PGDATA} -c config_file=${PG_CONFIG} >/dev/null
       fi
 
       if [[ -n ${DB_USER} ]]; then
         echo "GRANT DB User \"${DB_USER}\" to DB \"${db}\" access..."
         echo "GRANT ALL PRIVILEGES ON DATABASE ${db} to ${DB_USER};" |
-          su-exec postgres ${PG_BINDIR}/postgres --single \
-            -D ${PG_DATA} -c config_file=${PG_CONFIG} >/dev/null
+          su-exec postgres postgres --single \
+            -D ${PGDATA} -c config_file=${PG_CONFIG} >/dev/null
 
         echo "GRANT ALL PRIVILEGES ON DATABASE ${db} to ${DB_USER};" |
-          su-exec postgres ${PG_BINDIR}/postgres --single \
-            -D ${PG_DATA} -c config_file=${PG_CONFIG} >/dev/null
+          su-exec postgres postgres --single \
+            -D ${PGDATA} -c config_file=${PG_CONFIG} >/dev/null
 
       fi
 
       if [[ -n ${DB_PASS} ]]; then
         echo "Change postgres password..."
         echo "alter user postgres with password '$DB_PASS';" |
-          su-exec postgres ${PG_BINDIR}/postgres --single \
-            -D ${PG_DATA} -c config_file=${PG_CONFIG} >/dev/null
+          su-exec postgres postgres --single \
+            -D ${PGDATA} -c config_file=${PG_CONFIG} >/dev/null
       else
         echo "The POSTGRESQL_PASS ENV was not found,postgres user password could not be modified"
       fi
@@ -104,4 +102,4 @@ fi
 
 # exec postgresql
 echo "Start PostgreSQL service ..."
-su-exec postgres ${PG_BINDIR}/postgres -D ${PG_DATA} -c config_file=${PG_CONFIG}
+su-exec postgres postgres -D ${PGDATA} -c config_file=${PG_CONFIG}
