@@ -99,17 +99,13 @@ RUN set -xe \
     \
     && apk del --no-cache .build-deps
 
-<<<<<<< HEAD
-COPY 9.3/entrypoint.sh /sbin/entrypoint.sh
-RUN chmod 755 /sbin/entrypoint.sh
-=======
 RUN mkdir -p /var/run/postgresql && chown -R postgres:postgres /var/run/postgresql && chmod 2777 /var/run/postgresql
 ENV PGDATA /var/lib/postgresql/data
 ENV LANG en_US.utf8
 VOLUME /var/lib/postgresql/data
 COPY docker-entrypoint.sh /
 RUN chmod +x /docker-entrypoint.sh
->>>>>>> master
+
 
 EXPOSE 5432
 
