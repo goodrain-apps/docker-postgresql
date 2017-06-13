@@ -3,12 +3,12 @@ MAINTAINER zhouyq@goodrain.com
 
 
 ENV PACKAGE_DEPS \
-		alpine-sdk \
-		bison flex \
+    alpine-sdk \
+    bison flex \
     coreutils \
-		perl perl-utils\
-		readline-dev \
-		zlib-dev \
+    perl perl-utils\
+    readline-dev \
+    zlib-dev \
     dpkg-dev dpkg \
     openssl-dev \
     libc-dev \
@@ -39,8 +39,8 @@ RUN set -xe \
     && mv src/include/pg_config_manual.h.new src/include/pg_config_manual.h \
     && gnuArch="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)" \
     # explicitly update autoconf config.guess and config.sub so they support more arches/libcs
-		&& wget -O config/config.guess 'https://git.savannah.gnu.org/cgit/config.git/plain/config.guess?id=7d3d27baf8107b630586c962c057e22149653deb' \
-		&& wget -O config/config.sub 'https://git.savannah.gnu.org/cgit/config.git/plain/config.sub?id=7d3d27baf8107b630586c962c057e22149653deb' \
+    && wget -O config/config.guess 'https://git.savannah.gnu.org/cgit/config.git/plain/config.guess?id=7d3d27baf8107b630586c962c057e22149653deb' \
+    && wget -O config/config.sub 'https://git.savannah.gnu.org/cgit/config.git/plain/config.sub?id=7d3d27baf8107b630586c962c057e22149653deb' \
     \
     && ./configure \
       --build="$gnuArch" \
@@ -53,12 +53,12 @@ RUN set -xe \
       --with-openssl \
       --with-libxml \
       --with-libxslt \
-			--with-includes=/usr/local/include \
-			--with-libraries=/usr/local/lib \
-			--prefix=/usr/local \
-  	&& make -j "$(nproc)" world \
-  	&& make install-world  \
-  	&& make -C contrib install \
+      --with-includes=/usr/local/include \
+      --with-libraries=/usr/local/lib \
+      --prefix=/usr/local \
+    && make -j "$(nproc)" world \
+    && make install-world  \
+    && make -C contrib install \
     \
     && runDeps="$( \
 		scanelf --needed --nobanner --recursive /usr/local \
