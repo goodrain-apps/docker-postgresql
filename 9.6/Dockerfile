@@ -18,8 +18,8 @@ ENV PACKAGE_DEPS \
     util-linux-dev \
     zlib-dev
 
-ENV PG_VERSION 9.4.12
-ENV PG_SHA256 fca055481875d1c49e31c28443f56472a1474b3fbe25b7ae64440c6118f82e64
+ENV PG_VERSION 9.6.3
+ENV PG_SHA256 1645b3736901f6d854e695a937389e68ff2066ce0cde9d73919d6ab7c995b9c6
 ENV PG_URL=https://ftp.postgresql.org/pub/source/v${PG_VERSION}/postgresql-${PG_VERSION}.tar.bz2
 
 RUN set -xe \
@@ -69,11 +69,12 @@ RUN set -xe \
 	  )" \
     && apk add --no-cache --virtual .postgresql-rundeps $runDeps  \
     && cd / \
-    && rm -rf \
+		&& rm -rf \
   		/usr/src/postgresql \
   		/usr/local/share/doc \
   		/usr/local/share/man \
   	&& find /usr/local -name '*.a' -delete \
+    \
     && apk del --no-cache .build-deps
 
 RUN mkdir -p /var/run/postgresql && chown -R postgres:postgres /var/run/postgresql && chmod 2777 /var/run/postgresql
